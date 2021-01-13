@@ -1,10 +1,11 @@
 package com.example.PAS_REST.restapp.beans;
 
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
-public class AddBookBean {
+public class AudioBookBean {
+
     @NotNull
     @NotEmpty
     public String purchase;
@@ -17,5 +18,9 @@ public class AddBookBean {
     @NotEmpty
     public String author;
     @NotNull
-    public int pages;
+    public double duration;
+    @NotNull
+    @NotEmpty
+    public String lector;
+
 }
