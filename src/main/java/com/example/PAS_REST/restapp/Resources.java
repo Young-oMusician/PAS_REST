@@ -17,9 +17,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
-@ApplicationScoped
-@Path("resources")
+
+@Path("/resources")
 public class Resources {
 
     @Inject
@@ -76,12 +77,6 @@ public class Resources {
         } catch (ParseException e) {
             return Response.status(Response.Status.NOT_ACCEPTABLE.getStatusCode(), "Not acceptable date format").build();
         }
-//        if(!title.matches("[A-Z ][AaĄąBbCcĆćDdEeĘęFfGgHhIiJjKkLlŁłMmNnŃńOoÓóPpRrSsŚśTtUuWwYyZzŹźŻż ]+")){
-//            return Response.status(Response.Status.NOT_ACCEPTABLE.getStatusCode(), "Not acceptable title format").build();
-//        }
-//        if(!author.matches("[A-Z ][AaĄąBbCcĆćDdEeĘęFfGgHhIiJjKkLlŁłMmNnŃńOoÓóPpRrSsŚśTtUuWwYyZzŹźŻż ]+")){
-//            return Response.status(Response.Status.NOT_ACCEPTABLE.getStatusCode(), "Not acceptable author name format").build();
-//        }
         try {
             dataCenter.getResourcesManager().addCopyOfBook(purchaseDate, book.pricePerDay, book.title, book.author, book.pages);
         } catch (ExceptionHandler exceptionHandler) {
@@ -100,12 +95,6 @@ public class Resources {
         } catch (ParseException e) {
             return Response.status(Response.Status.NOT_ACCEPTABLE.getStatusCode(), "Not acceptable date format").build();
         }
-//        if(!title.matches("[A-Z ][AaĄąBbCcĆćDdEeĘęFfGgHhIiJjKkLlŁłMmNnŃńOoÓóPpRrSsŚśTtUuWwYyZzŹźŻż ]+")){
-//            return Response.status(Response.Status.NOT_ACCEPTABLE.getStatusCode(), "Not acceptable title format").build();
-//        }
-//        if(!author.matches("[A-Z ][AaĄąBbCcĆćDdEeĘęFfGgHhIiJjKkLlŁłMmNnŃńOoÓóPpRrSsŚśTtUuWwYyZzŹźŻż ]+")){
-//            return Response.status(Response.Status.NOT_ACCEPTABLE.getStatusCode(), "Not acceptable author name format").build();
-//        }
         try {
             dataCenter.getResourcesManager().addAudioBook(purchaseDate, audioBookBean.pricePerDay, audioBookBean.title, audioBookBean.author, audioBookBean.duration,audioBookBean.lector);
         } catch (ExceptionHandler exceptionHandler) {

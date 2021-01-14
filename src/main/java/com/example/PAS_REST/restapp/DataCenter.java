@@ -11,7 +11,9 @@ import com.example.PAS_REST.model.logiclayer.managers.HRManager;
 import com.example.PAS_REST.model.logiclayer.managers.ResourcesManager;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
 
+@ApplicationScoped
 public class DataCenter {
 
     private HRRepository hrRepository;
