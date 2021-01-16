@@ -16,7 +16,6 @@
 
     <security-role>
         <role-name>READERS</role-name>
-
     </security-role>
 
     <login-config>
@@ -35,7 +34,6 @@
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
-
     </security-constraint>
 
     <security-constraint>
@@ -47,7 +45,6 @@
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
-
     </security-constraint>
 
 </web-app>
