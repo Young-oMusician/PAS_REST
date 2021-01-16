@@ -7,6 +7,7 @@ import com.example.PAS_REST.model.logiclayer.ExceptionHandler;
 import com.example.PAS_REST.restapp.beans.EmployeeAndAdminBean;
 import com.example.PAS_REST.restapp.beans.ReaderBean;
 
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -19,6 +20,7 @@ import java.util.List;
 
 @ApplicationScoped
 @Path("hr")
+@RolesAllowed({"ADMINS"})
 public class People {
 
     @Inject
