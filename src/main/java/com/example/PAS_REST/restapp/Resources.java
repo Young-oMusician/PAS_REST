@@ -11,8 +11,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,6 +22,9 @@ import java.util.regex.Pattern;
 
 @Path("/resources")
 public class Resources {
+
+    @Context
+    private Request request;
 
     @Inject
     private DataCenter dataCenter;
@@ -57,18 +59,22 @@ public class Resources {
     @Path("/books/{id}")
     @RolesAllowed({"ADMIN", "EMPLOYEE", "READER"})
     @Produces(MediaType.APPLICATION_JSON)
-    public Resource getbook(@PathParam("id") String id){
+    public Response getbook(@PathParam("id") String id){
         UUID uuid = UUID.fromString(id);
-        return dataCenter.getResourcesManager().getAudioBook(uuid);
+        Book book = dataCenter.getResourcesManager().getBook(uuid);
+        EntityTag tag = new EntityTag(book.getId().hashCode()+"");
+        return Response.ok(book).tag(tag).build();
     }
 
     @GET
     @Path("/audiobooks/{id}")
     @RolesAllowed({"ADMIN", "EMPLOYEE", "READER"})
     @Produces(MediaType.APPLICATION_JSON)
-    public Resource getResource(@PathParam("id") String id){
+    public Response getResource(@PathParam("id") String id){
         UUID uuid = UUID.fromString(id);
-        return dataCenter.getResourcesManager().getBook(uuid);
+        AudioBook audioBook = dataCenter.getResourcesManager().getAudioBook(uuid);
+        EntityTag tag = new EntityTag(audioBook.getId().hashCode()+"");
+        return Response.ok(audioBook).tag(tag).build();
     }
 
     //---------------delete---------------
@@ -140,7 +146,9 @@ public class Resources {
             return Response.status(Response.Status.NOT_ACCEPTABLE.getStatusCode(), "Not acceptable date format").build();
         }
         UUID uuid = UUID.fromString(id);
+        Book bookToUpdate = dataCenter.getResourcesManager().getBook(uuid);
         Book updatedBook = new Book(uuid, purchaseDate, book.pricePerDay, book.title, book.author, book.pages);
+        Response.ResponseBuilder evaluationResultBuilder = request.evaluatePreconditions(new EntityTag(bookToUpdate.getId().toString()));
         try {
             dataCenter.getResourcesManager().updateBook(uuid, updatedBook);
         } catch (ExceptionHandler exceptionHandler) {

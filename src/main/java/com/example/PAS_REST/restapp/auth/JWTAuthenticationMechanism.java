@@ -43,7 +43,7 @@ public class JWTAuthenticationMechanism implements HttpAuthenticationMechanism {
                                                 HttpMessageContext httpMessageContext)
             throws AuthenticationException {
 
-        if(!httpServletRequest.getPathInfo().equals("/auth/login") && !httpServletRequest.getPathInfo().equals("/auth/extendToken")){
+        if(httpServletRequest.getPathInfo().equals("/resources")){
             return httpMessageContext.doNothing();
         }
         String email = httpServletRequest.getParameter("email");
