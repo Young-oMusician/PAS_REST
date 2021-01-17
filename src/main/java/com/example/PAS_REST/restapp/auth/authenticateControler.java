@@ -79,7 +79,8 @@ public class authenticateControler{
     @RolesAllowed({"READER", "EMPLOYEE", "ADMIN"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response extendToken(@HeaderParam("Authorization") @NotBlank String token){
-        JWTCredential credential = jwtGenerator.getCredential(token);
+        String exToken = token.substring(6, token.length());
+        JWTCredential credential = jwtGenerator.getCredential(exToken);
         String newToken = jwtGenerator.createToken(credential.getPrincipal(), credential.getAuthorities());
         return Response.ok(Json.createObjectBuilder().add("token", newToken).build()).build();
     }
