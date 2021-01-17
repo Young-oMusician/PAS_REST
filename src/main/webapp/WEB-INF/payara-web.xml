@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE payara-web-app PUBLIC "-//Payara.fish//DTD Payara Server 4 Servlet 3.0//EN" "https://raw.githubusercontent.com/payara/Payara-Server-Documentation/master/schemas/payara-web-app_4.dtd">
 <payara-web-app>
-
     <security-role-mapping>
-        <role-name>ADMINS</role-name>
-        <group-name>ADMINS</group-name>
+        <role-name>ADMIN</role-name>
+        <group-name>ADMIN</group-name>
     </security-role-mapping>
 
     <security-role-mapping>
-        <role-name>EMPLOYEES</role-name>
-        <group-name>EMPLOYEES</group-name>
+        <role-name>EMPLOYEE</role-name>
+        <group-name>EMPLOYEE</group-name>
     </security-role-mapping>
 
     <security-role-mapping>
-        <role-name>READERS</role-name>
-        <group-name>READERS</group-name>
+        <role-name>READER</role-name>
+        <group-name>READER</group-name>
     </security-role-mapping>
 
     <class-loader delegate="true" />

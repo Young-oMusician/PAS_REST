@@ -1,9 +1,13 @@
 package com.example.PAS_REST.model.datalayer.obj.People;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@JsonIgnoreProperties({"password"})
 public class Person {
 
     private String pesel;
@@ -14,11 +18,14 @@ public class Person {
     private String email;
     private String gender;
     private boolean active;
+    @JsonIgnore
+    private String password;
+    private String role;
 
     public Person() {
     }
 
-    public Person(String id, String name, String surname, Date birthDate, String phoneNumber, String email, String gender) {
+    public Person(String id, String name, String surname, Date birthDate, String phoneNumber, String email, String gender, String password, String role) {
         this.pesel = id;
         this.name = name;
         this.surname = surname;
@@ -26,6 +33,8 @@ public class Person {
         this.birthDate = birthDate;
         this.email = email;
         this.gender = gender;
+        this.password = password;
+        this.role = role;
     }
 
     public Person(Person obj){
@@ -37,6 +46,8 @@ public class Person {
         this.email = obj.email;
         this.gender = obj.gender;
         this.active = obj.active;
+        this.password = obj.password;
+        this.role = obj.role;
     }
 
     @Override
@@ -128,4 +139,19 @@ public class Person {
         this.active = active;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

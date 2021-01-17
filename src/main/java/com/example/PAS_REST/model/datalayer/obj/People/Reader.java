@@ -1,9 +1,12 @@
 package com.example.PAS_REST.model.datalayer.obj.People;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@JsonIgnoreProperties({"password"})
 public class Reader extends Person {
 
     private Date dateOfRegistration;
@@ -13,14 +16,16 @@ public class Reader extends Person {
         super();
     }
 
-    public Reader(String id, String name, String surname, Date birthDate, String phoneNumber, String email, String gender, Date dateOfRegistration, Double balance) {
-        super(id, name, surname, birthDate, phoneNumber, email, gender);
+    public Reader(String id, String name, String surname, Date birthDate, String phoneNumber, String email,
+                  String gender, Date dateOfRegistration, Double balance, String password) {
+        super(id, name, surname, birthDate, phoneNumber, email, gender, password, "READER");
         this.dateOfRegistration = dateOfRegistration;
         this.balance = balance;
     }
 
-    public Reader(String id, String name, String surname, Date birthDate, String phoneNumber, String email, String gender, Date dateOfRegistration) {
-        super(id, name, surname, birthDate, phoneNumber, email, gender);
+    public Reader(String id, String name, String surname, Date birthDate, String phoneNumber, String email,
+                  String gender, Date dateOfRegistration, String password) {
+        super(id, name, surname, birthDate, phoneNumber, email, gender, password, "READER");
         this.dateOfRegistration = dateOfRegistration;
         this.balance = 0.0;
     }

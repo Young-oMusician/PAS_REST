@@ -1,11 +1,15 @@
 package com.example.PAS_REST.restapp.auth;
 
+import com.example.PAS_REST.model.datalayer.obj.People.Person;
+import com.example.PAS_REST.restapp.DataCenter;
+
 import static java.util.Collections.singleton;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.security.enterprise.credential.Credential;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.security.enterprise.identitystore.CredentialValidationResult;
@@ -19,11 +23,11 @@ public class AuthenticationIdentityStore implements IdentityStore {
 
     private Map<String, String> callerToPassword;
 
+    @Inject
+    private DataCenter dataCenter;
+
     @PostConstruct
     public void init() {
-        callerToPassword = new HashMap<>();
-        callerToPassword.put("payara", "fish");
-        callerToPassword.put("duke", "secret");
     }
 
     @Override
@@ -32,16 +36,18 @@ public class AuthenticationIdentityStore implements IdentityStore {
 
         if (credential instanceof UsernamePasswordCredential) {
             UsernamePasswordCredential usernamePassword = (UsernamePasswordCredential) credential;
-            String expectedPW = callerToPassword.get(usernamePassword.getCaller());
+            String expectedPW = dataCenter.get_hr().getPerson(usernamePassword.getCaller()).getPassword();
+            if(!dataCenter.get_hr().getPerson(usernamePassword.getCaller()).isActive()){
+                return INVALID_RESULT;
+            }
             if (expectedPW != null && expectedPW.equals(usernamePassword.getPasswordAsString())) {
-                result = new CredentialValidationResult(usernamePassword.getCaller());
+                return new CredentialValidationResult(usernamePassword.getCaller(), singleton(dataCenter.get_hr().getPerson(usernamePassword.getCaller()).getRole()));
             } else {
-                result = INVALID_RESULT;
+                return INVALID_RESULT;
             }
         } else {
-            result = NOT_VALIDATED_RESULT;
+            return NOT_VALIDATED_RESULT;
         }
-        return result;
     }
 
     @Override

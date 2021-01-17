@@ -9,6 +9,7 @@ import com.example.PAS_REST.restapp.beans.AddPaymentBean;
 import com.example.PAS_REST.restapp.beans.AddRentBean;
 import com.example.PAS_REST.restapp.beans.AddReturnBean;
 
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -26,35 +27,42 @@ public class Events {
     @Inject
     private DataCenter dataCenter;
 
+    //---------------getAll---------------
+
     @GET
+    @RolesAllowed({"EMPLOYEE", "ADMIN"})
     @Produces(MediaType.APPLICATION_JSON)
     public List<Event> getAllEvents(){
         return dataCenter.getEventsManager().getAllEvents();
     }
 
     @GET
-    @Path("/display/rent")
+    @Path("/rents")
+    @RolesAllowed({"EMPLOYEE", "ADMIN"})
     @Produces(MediaType.APPLICATION_JSON)
     public List<Rent> getAllRents(){
         return dataCenter.getEventsManager().getAllRents();
     }
 
     @GET
-    @Path("/display/return")
+    @Path("/returns")
+    @RolesAllowed({"EMPLOYEE", "ADMIN"})
     @Produces(MediaType.APPLICATION_JSON)
     public List<Return> getAllReturns(){
         return dataCenter.getEventsManager().getAllReturns();
     }
 
     @GET
-    @Path("/display/payment")
+    @Path("/payments")
+    @RolesAllowed({"EMPLOYEE", "ADMIN"})
     @Produces(MediaType.APPLICATION_JSON)
     public List<Payment> getAllPayments(){
         return dataCenter.getEventsManager().getAllPayments();
     }
 
     @GET
-    @Path("/display/event/{id}")
+    @Path("/events/{id}")
+    @RolesAllowed({"EMPLOYEE", "ADMIN"})
     @Produces(MediaType.APPLICATION_JSON)
     public Event getEvent(@PathParam("id") String id){
         UUID uuid = UUID.fromString(id);
@@ -62,7 +70,8 @@ public class Events {
     }
 
     @GET
-    @Path("/display/rent/{id}")
+    @Path("/rents/{id}")
+    @RolesAllowed({"EMPLOYEE", "ADMIN"})
     @Produces(MediaType.APPLICATION_JSON)
     public Rent getRent(@PathParam("id") String id){
         UUID uuid = UUID.fromString(id);
@@ -70,7 +79,8 @@ public class Events {
     }
 
     @GET
-    @Path("/display/return/{id}")
+    @Path("/returns/{id}")
+    @RolesAllowed({"EMPLOYEE", "ADMIN"})
     @Produces(MediaType.APPLICATION_JSON)
     public Return getReturn(@PathParam("id") String id){
         UUID uuid = UUID.fromString(id);
@@ -78,7 +88,8 @@ public class Events {
     }
 
     @GET
-    @Path("/display/payment/{id}")
+    @Path("/payments/{id}")
+    @RolesAllowed({"EMPLOYEE", "ADMIN"})
     @Produces(MediaType.APPLICATION_JSON)
     public Payment getPayment(@PathParam("id") String id){
         UUID uuid = UUID.fromString(id);
@@ -86,7 +97,8 @@ public class Events {
     }
 
     @POST
-    @Path("/add/rent")
+    @Path("/rents/add")
+    @RolesAllowed({"READER"})
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addRent(@Valid AddRentBean rent){
         UUID uuid = UUID.fromString(rent.resourceId);
@@ -101,7 +113,8 @@ public class Events {
     }
 
     @POST
-    @Path("/add/return")
+    @Path("/returns/add")
+    @RolesAllowed({"READER"})
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addReturn(AddReturnBean returnBean){
         UUID rentUuid = UUID.fromString(returnBean.rentID);
@@ -116,7 +129,8 @@ public class Events {
         return Response.ok().build();
     }
     @POST
-    @Path("/add/payment")
+    @Path("/payment/add")
+    @RolesAllowed({"READER"})
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addPayment(AddPaymentBean payment){
 

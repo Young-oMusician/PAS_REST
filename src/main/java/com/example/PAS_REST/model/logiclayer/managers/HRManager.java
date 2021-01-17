@@ -39,13 +39,13 @@ public class HRManager {
 //    }
 
     public void addReader(String id, String name, String surname, Date birthDate, String phoneNumber, String email,
-                          String gender, Date dateOfRegistration, Double balance) throws ExceptionHandler {
-        hrRepository.addReader(new Reader(id,name,surname,birthDate,phoneNumber,email,gender,dateOfRegistration,balance));
+                          String gender, Date dateOfRegistration, Double balance, String password) throws ExceptionHandler {
+        hrRepository.addReader(new Reader(id,name,surname,birthDate,phoneNumber,email,gender,dateOfRegistration,balance, password));
     }
 
     public void addReader(String id, String name, String surname, Date birthDate, String phoneNumber, String email,
-                          String gender, Date dateOfRegistration, Double balance, boolean active) throws ExceptionHandler {
-        Reader newReader = new Reader(id,name,surname,birthDate,phoneNumber,email,gender,dateOfRegistration,balance);
+                          String gender, Date dateOfRegistration, Double balance, boolean active, String password) throws ExceptionHandler {
+        Reader newReader = new Reader(id,name,surname,birthDate,phoneNumber,email,gender,dateOfRegistration,balance, password);
         newReader.setActive(active);
         hrRepository.addReader(newReader);
     }
@@ -146,8 +146,8 @@ public class HRManager {
     }
 
 
-    public void addEmployee(String id, String name, String surname, Date birthDate, String phoneNumber, String email, String gender, Date dateOfEmployment) throws ExceptionHandler {
-        hrRepository.addEmployee(new Employee(id,name,surname,birthDate,phoneNumber,email,gender,dateOfEmployment));
+    public void addEmployee(String id, String name, String surname, Date birthDate, String phoneNumber, String email, String gender, Date dateOfEmployment, String password) throws ExceptionHandler {
+        hrRepository.addEmployee(new Employee(id,name,surname,birthDate,phoneNumber,email,gender,dateOfEmployment, password));
     }
 
     public List<Employee> getAllEmployees(){
@@ -164,8 +164,8 @@ public class HRManager {
         hrRepository.updateEmployee(id, employee);
     }
 
-    public void addAdministrator(String id, String name, String surname, Date birthDate, String phoneNumber, String email, String gender, Date dateOfEmployment) throws ExceptionHandler {
-        hrRepository.addAdministrator(new Administrator(id,name,surname,birthDate,phoneNumber,email,gender,dateOfEmployment));
+    public void addAdministrator(String id, String name, String surname, Date birthDate, String phoneNumber, String email, String gender, Date dateOfEmployment, String password) throws ExceptionHandler {
+        hrRepository.addAdministrator(new Administrator(id,name,surname,birthDate,phoneNumber,email,gender,dateOfEmployment, password));
     }
 
     public void deactivateAdministrator(String email) throws ExceptionHandler {

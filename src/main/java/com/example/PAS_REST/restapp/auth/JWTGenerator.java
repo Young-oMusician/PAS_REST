@@ -20,12 +20,11 @@ public class JWTGenerator {
 
     @PostConstruct
     public void init() {
-        // load from config
         this.secretKey = "secret";
-        this.tokenValidity = TimeUnit.HOURS.toMillis(10);   //10 hours
+        this.tokenValidity = TimeUnit.MINUTES.toMillis(10);   //10 minutes
     }
 
-    public String createToken(String username, Set<String> authorities, Boolean rememberMe) {
+    public String createToken(String username, Set<String> authorities) {
         long now = (new Date()).getTime();
 
         return Jwts.builder()
@@ -49,6 +48,7 @@ public class JWTGenerator {
     public boolean validateToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(authToken);
+            LOGGER.log(Level.INFO, "");
             return true;
         } catch (SignatureException e) {
             LOGGER.log(Level.INFO, "Invalid JWT signature: {0}", e.getMessage());

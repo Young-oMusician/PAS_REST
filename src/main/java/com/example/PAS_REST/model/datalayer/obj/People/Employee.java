@@ -1,17 +1,20 @@
 package com.example.PAS_REST.model.datalayer.obj.People;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@JsonIgnoreProperties({"password"})
 public class Employee extends Person {
 
     private Date dateOfEmployment;
 
     public Employee(String id, String name, String surname, Date birthDate,
-                    String phoneNumber, String email, String gender, Date dateOfEmployment)
+                    String phoneNumber, String email, String gender, Date dateOfEmployment, String password)
     {
-        super(id,name,surname,birthDate,phoneNumber,email,gender);
+        super(id,name,surname,birthDate,phoneNumber,email,gender, password, "EMPLOYEE");
         this.dateOfEmployment = dateOfEmployment;
         setActive(true);
     }

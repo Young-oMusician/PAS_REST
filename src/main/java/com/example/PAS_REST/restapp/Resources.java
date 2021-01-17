@@ -7,6 +7,7 @@ import com.example.PAS_REST.model.logiclayer.ExceptionHandler;
 import com.example.PAS_REST.restapp.beans.AudioBookBean;
 import com.example.PAS_REST.restapp.beans.BookBean;
 
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -26,37 +27,55 @@ public class Resources {
     @Inject
     private DataCenter dataCenter;
 
+    //---------------getAll---------------
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Resource> getAllResources(){
+        return dataCenter.getResourcesManager().getAllResources();
+    }
 
     @GET
     @Path("/books")
+    @RolesAllowed({"ADMIN", "EMPLOYEE", "READER"})
     @Produces(MediaType.APPLICATION_JSON)
     public List<Book> getAllBooks(){
         return dataCenter.getResourcesManager().getAllCopiesOfBook();
     }
+
     @GET
     @Path("/audiobooks")
+    @RolesAllowed({"ADMIN", "EMPLOYEE", "READER"})
     @Produces(MediaType.APPLICATION_JSON)
     public List<AudioBook> getAllAudioBooks(){
         return dataCenter.getResourcesManager().getAllAudioBooks();
     }
 
+    //---------------getSingle---------------
+
     @GET
     @Path("/books/{id}")
+    @RolesAllowed({"ADMIN", "EMPLOYEE", "READER"})
     @Produces(MediaType.APPLICATION_JSON)
     public Resource getbook(@PathParam("id") String id){
         UUID uuid = UUID.fromString(id);
         return dataCenter.getResourcesManager().getAudioBook(uuid);
     }
+
     @GET
-    @Path("/audiobooks/books/{id}")
+    @Path("/audiobooks/{id}")
+    @RolesAllowed({"ADMIN", "EMPLOYEE", "READER"})
     @Produces(MediaType.APPLICATION_JSON)
     public Resource getResource(@PathParam("id") String id){
         UUID uuid = UUID.fromString(id);
         return dataCenter.getResourcesManager().getBook(uuid);
     }
 
+    //---------------delete---------------
+
     @DELETE
     @Path("/delete/{id}")
+    @RolesAllowed({"EMPLOYEE"})
     public Response deleteResuorce(@PathParam("id") String id){
         UUID uuid = UUID.fromString(id);
         try {
@@ -67,8 +86,11 @@ public class Resources {
         }
     }
 
+    //---------------add---------------
+
     @POST
     @Path("/books/add")
+    @RolesAllowed({"EMPLOYEE"})
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addBook(BookBean book){
         Date purchaseDate = null;
@@ -87,6 +109,7 @@ public class Resources {
 
     @POST
     @Path("/audiobooks/add")
+    @RolesAllowed({"EMPLOYEE"})
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addAudioBook(AudioBookBean audioBookBean){
         Date purchaseDate = null;
@@ -103,9 +126,11 @@ public class Resources {
         return Response.ok().build();
     }
 
+    //---------------update---------------
 
     @PUT
     @Path("/books/update/{id}")
+    @RolesAllowed({"EMPLOYEE"})
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateBook(@PathParam("id") String id, BookBean book){
         Date purchaseDate = null;
@@ -126,6 +151,7 @@ public class Resources {
 
     @PUT
     @Path("/audiobooks/update/{id}")
+    @RolesAllowed({"EMPLOYEE"})
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateAudioBook(@PathParam("id") String id, AudioBookBean audioBookBean){
         Date purchaseDate = null;

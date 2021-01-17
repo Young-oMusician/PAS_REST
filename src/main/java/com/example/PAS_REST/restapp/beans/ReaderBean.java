@@ -31,4 +31,7 @@ public class ReaderBean {
     public String dateOfRegistration;
     @NotNull
     public Double balance;
+    @NotNull
+    @NotEmpty
+    public String password;
 }

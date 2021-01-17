@@ -28,4 +28,7 @@ public class EmployeeAndAdminBean {
     @NotNull
     @NotEmpty
     public String dateOfEmployment;
+    @NotNull
+    @NotEmpty
+    public String password;
 }
