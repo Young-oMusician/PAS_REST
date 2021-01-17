@@ -1,5 +1,7 @@
 package com.example.PAS_REST.model.datalayer.obj.Resources;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,6 +10,7 @@ import java.util.UUID;
 
 public abstract class Resource {
     private UUID id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
     private Date purchaseDate;
     private double pricePerDay;
 

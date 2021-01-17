@@ -1,5 +1,7 @@
 package com.example.PAS_REST.model.datalayer.obj.Events;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,6 +9,7 @@ import java.util.UUID;
 
 public abstract class Event {
     private UUID id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date date;
 
     public Event() {

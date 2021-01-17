@@ -9,4 +9,5 @@ public class AboutReader extends AboutPerson {
     public Date dateOfRegistration;
     public Double balance;
     public List<Rent> rentList;
+    public boolean active;
 }

@@ -1,5 +1,6 @@
 package com.example.PAS_REST.model.datalayer.obj.People;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -13,6 +14,7 @@ public class Person {
     private String pesel;
     private String name;
     private String surname;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date birthDate;
     private String phoneNumber;
     private String email;

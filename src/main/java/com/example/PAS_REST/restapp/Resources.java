@@ -6,10 +6,13 @@ import com.example.PAS_REST.model.datalayer.obj.Resources.Resource;
 import com.example.PAS_REST.model.logiclayer.ExceptionHandler;
 import com.example.PAS_REST.restapp.beans.AudioBookBean;
 import com.example.PAS_REST.restapp.beans.BookBean;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.text.ParseException;
@@ -33,24 +36,44 @@ public class Resources {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Resource> getAllResources(){
-        return dataCenter.getResourcesManager().getAllResources();
+    public Response getAllResources(){
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            String result = mapper.writeValueAsString(dataCenter.getResourcesManager().getAllResources());
+            return Response.ok(result).build();
+        } catch (JsonProcessingException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), e.getMessage()).build();
+        }
     }
 
     @GET
     @Path("/books")
     @RolesAllowed({"ADMIN", "EMPLOYEE", "READER"})
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Book> getAllBooks(){
-        return dataCenter.getResourcesManager().getAllCopiesOfBook();
+    public Response getAllBooks(){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String result = mapper.writeValueAsString(dataCenter.getResourcesManager().getAllCopiesOfBook());
+            return Response.ok(result).build();
+        } catch (JsonProcessingException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), e.getMessage()).build();
+        }
     }
 
     @GET
     @Path("/audiobooks")
     @RolesAllowed({"ADMIN", "EMPLOYEE", "READER"})
     @Produces(MediaType.APPLICATION_JSON)
-    public List<AudioBook> getAllAudioBooks(){
-        return dataCenter.getResourcesManager().getAllAudioBooks();
+    public Response getAllAudioBooks(){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String result = mapper.writeValueAsString(dataCenter.getResourcesManager().getAllAudioBooks());
+            return Response.ok(result).build();
+        } catch (JsonProcessingException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), e.getMessage()).build();
+        }
+
     }
 
     //---------------getSingle---------------
@@ -59,22 +82,30 @@ public class Resources {
     @Path("/books/{id}")
     @RolesAllowed({"ADMIN", "EMPLOYEE", "READER"})
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getbook(@PathParam("id") String id){
+    public Response getbook(@Valid @PathParam("id") String id){
         UUID uuid = UUID.fromString(id);
         Book book = dataCenter.getResourcesManager().getBook(uuid);
-        EntityTag tag = new EntityTag(book.getId().hashCode()+"");
-        return Response.ok(book).tag(tag).build();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return Response.ok(mapper.writeValueAsString(book)).build();
+        } catch (JsonProcessingException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), e.getMessage()).build();
+        }
     }
 
     @GET
     @Path("/audiobooks/{id}")
     @RolesAllowed({"ADMIN", "EMPLOYEE", "READER"})
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getResource(@PathParam("id") String id){
+    public Response getResource(@Valid @PathParam("id") String id){
         UUID uuid = UUID.fromString(id);
         AudioBook audioBook = dataCenter.getResourcesManager().getAudioBook(uuid);
-        EntityTag tag = new EntityTag(audioBook.getId().hashCode()+"");
-        return Response.ok(audioBook).tag(tag).build();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return Response.ok(mapper.writeValueAsString(audioBook)).build();
+        } catch (JsonProcessingException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), e.getMessage()).build();
+        }
     }
 
     //---------------delete---------------
@@ -82,7 +113,7 @@ public class Resources {
     @DELETE
     @Path("/delete/{id}")
     @RolesAllowed({"EMPLOYEE"})
-    public Response deleteResuorce(@PathParam("id") String id){
+    public Response deleteResuorce(@Valid @PathParam("id") String id){
         UUID uuid = UUID.fromString(id);
         try {
             dataCenter.getResourcesManager().deleteResource(uuid);
@@ -98,7 +129,7 @@ public class Resources {
     @Path("/books/add")
     @RolesAllowed({"EMPLOYEE"})
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addBook(BookBean book){
+    public Response addBook(@Valid BookBean book){
         Date purchaseDate = null;
         try {
             purchaseDate = new SimpleDateFormat("dd/MM/yyyy").parse(book.purchase);
@@ -117,7 +148,7 @@ public class Resources {
     @Path("/audiobooks/add")
     @RolesAllowed({"EMPLOYEE"})
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addAudioBook(AudioBookBean audioBookBean){
+    public Response addAudioBook(@Valid AudioBookBean audioBookBean){
         Date purchaseDate = null;
         try {
             purchaseDate = new SimpleDateFormat("dd/MM/yyyy").parse(audioBookBean.purchase);
@@ -138,7 +169,7 @@ public class Resources {
     @Path("/books/update/{id}")
     @RolesAllowed({"EMPLOYEE"})
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateBook(@PathParam("id") String id, BookBean book){
+    public Response updateBook(@Valid @PathParam("id") String id, BookBean book){
         Date purchaseDate = null;
         try {
             purchaseDate = new SimpleDateFormat("dd/MM/yyyy").parse(book.purchase);
@@ -146,9 +177,7 @@ public class Resources {
             return Response.status(Response.Status.NOT_ACCEPTABLE.getStatusCode(), "Not acceptable date format").build();
         }
         UUID uuid = UUID.fromString(id);
-        Book bookToUpdate = dataCenter.getResourcesManager().getBook(uuid);
         Book updatedBook = new Book(uuid, purchaseDate, book.pricePerDay, book.title, book.author, book.pages);
-        Response.ResponseBuilder evaluationResultBuilder = request.evaluatePreconditions(new EntityTag(bookToUpdate.getId().toString()));
         try {
             dataCenter.getResourcesManager().updateBook(uuid, updatedBook);
         } catch (ExceptionHandler exceptionHandler) {
@@ -161,7 +190,7 @@ public class Resources {
     @Path("/audiobooks/update/{id}")
     @RolesAllowed({"EMPLOYEE"})
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateAudioBook(@PathParam("id") String id, AudioBookBean audioBookBean){
+    public Response updateAudioBook(@Valid @PathParam("id") String id, AudioBookBean audioBookBean){
         Date purchaseDate = null;
         try {
             purchaseDate = new SimpleDateFormat("dd/MM/yyyy").parse(audioBookBean.purchase);

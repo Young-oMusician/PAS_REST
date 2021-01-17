@@ -2,6 +2,7 @@ package com.example.PAS_REST.model.datalayer.obj.Events;
 
 import com.example.PAS_REST.model.datalayer.obj.People.Reader;
 import com.example.PAS_REST.model.datalayer.obj.Resources.Resource;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
@@ -15,6 +16,7 @@ public class Rent extends Event{
     private Reader reader;
     private Resource rentedResource;
     private double cachedPricePerDay;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
     private Date dateOfReturn;
 
     public Rent() {

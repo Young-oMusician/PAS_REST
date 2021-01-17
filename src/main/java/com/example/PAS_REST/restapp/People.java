@@ -77,7 +77,7 @@ public class People {
     @Path("/readers/{email}")
     @RolesAllowed({"ADMIN", "EMPLOYEE"})
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getReader(@PathParam("email") String email){
+    public Response getReader(@Valid @PathParam("email") String email){
         try {
             String result = new ObjectMapper().writeValueAsString(dataCenter.get_hr().getReader(email));
             return Response.ok(result).build();
@@ -90,7 +90,7 @@ public class People {
     @Path("/employees/{email}")
     @RolesAllowed({"ADMIN", "EMPLOYEE"})
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getEmployee(@PathParam("email") String email){
+    public Response getEmployee(@Valid @PathParam("email") String email){
         try {
             String result = new ObjectMapper().writeValueAsString(dataCenter.get_hr().getEmployee(email));
             return Response.ok(result).build();
@@ -103,7 +103,7 @@ public class People {
     @Path("/admins/{email}")
     @RolesAllowed({"ADMIN", "EMPLOYEE"})
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAdministrator(@PathParam("email") String email){
+    public Response getAdministrator(@Valid @PathParam("email") String email){
         try {
             String result = new ObjectMapper().writeValueAsString(dataCenter.get_hr().getAdministrator(email));
             return Response.ok(result).build();
@@ -118,7 +118,7 @@ public class People {
     @Path("/readers/add")
     @RolesAllowed({"ADMIN"})
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addReader(ReaderBean readerBean){
+    public Response addReader(@Valid ReaderBean readerBean){
         Date dateOfBirth = null;
         Date dateOfRegistration = new Date();
         try {
@@ -139,7 +139,7 @@ public class People {
     @Path("/employees/add")
     @RolesAllowed({"ADMIN"})
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addEmployee(EmployeeAndAdminBean employeeAndAdminBean){
+    public Response addEmployee(@Valid EmployeeAndAdminBean employeeAndAdminBean){
         Date dateOfBirth = null;
         Date dateOfEmployment = new Date();
         try {
@@ -160,7 +160,7 @@ public class People {
     @Path("/admins/add")
     @RolesAllowed({"ADMIN"})
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addAdmin(EmployeeAndAdminBean employeeAndAdminBean){
+    public Response addAdmin(@Valid EmployeeAndAdminBean employeeAndAdminBean){
         Date dateOfBirth = null;
         Date dateOfEmployment = new Date();
         try {
@@ -183,7 +183,7 @@ public class People {
     @Path("/readers/update/{email}")
     @RolesAllowed({"ADMIN"})
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateReader(@PathParam("email") String email, ReaderBean readerBean){
+    public Response updateReader(@Valid @PathParam("email") String email, ReaderBean readerBean){
         Date dateOfBirth = null;
         Date dateOfRegistration = new Date();
         try {
@@ -192,7 +192,10 @@ public class People {
             return Response.status(Response.Status.NOT_ACCEPTABLE.getStatusCode(), "Not acceptable date format").build();
         }
 
-        Reader updatedReader = new Reader(readerBean.id, readerBean.name, readerBean.surname, dateOfBirth,readerBean.phoneNumber, readerBean.email,readerBean.gender,dateOfRegistration, readerBean.balance, readerBean.password);
+        Reader updatedReader = new Reader(readerBean.id, readerBean.name, readerBean.surname,
+                dateOfBirth,readerBean.phoneNumber, readerBean.email,readerBean.gender,dateOfRegistration,
+                readerBean.balance, readerBean.password);
+        updatedReader.setActive(readerBean.active);
 
         try {
             dataCenter.get_hr().updateReader(email,updatedReader);
@@ -206,7 +209,7 @@ public class People {
     @Path("/employees/update/{email}")
     @RolesAllowed({"ADMIN"})
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateEmployee(@PathParam("email") String email, EmployeeAndAdminBean employeeAndAdminBean){
+    public Response updateEmployee(@Valid @PathParam("email") String email, EmployeeAndAdminBean employeeAndAdminBean){
         Date dateOfBirth = null;
         Date dateOfEmployment = new Date();
         try {
@@ -216,6 +219,7 @@ public class People {
         }
 
         Employee updatedEmployee = new Employee(employeeAndAdminBean.id, employeeAndAdminBean.name, employeeAndAdminBean.surname, dateOfBirth, employeeAndAdminBean.phoneNumber, employeeAndAdminBean.email, employeeAndAdminBean.gender,dateOfEmployment, employeeAndAdminBean.password);
+        updatedEmployee.setActive(employeeAndAdminBean.active);
 
         try {
             dataCenter.get_hr().updateEmployee(email,updatedEmployee);
@@ -230,7 +234,7 @@ public class People {
     @Path("/admins/update/{email}")
     @RolesAllowed({"ADMIN"})
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateAdmin(@PathParam("email") String email, EmployeeAndAdminBean employeeAndAdminBean){
+    public Response updateAdmin(@Valid @PathParam("email") String email, EmployeeAndAdminBean employeeAndAdminBean){
         Date dateOfBirth = null;
         Date dateOfEmployment = new Date();
         try {
@@ -240,6 +244,7 @@ public class People {
         }
 
         Administrator updatedAdmin = new Administrator(employeeAndAdminBean.id, employeeAndAdminBean.name, employeeAndAdminBean.surname, dateOfBirth, employeeAndAdminBean.phoneNumber, employeeAndAdminBean.email, employeeAndAdminBean.gender,dateOfEmployment, employeeAndAdminBean.password);
+        updatedAdmin.setActive(employeeAndAdminBean.active);
 
         try {
             dataCenter.get_hr().updateAdministrator(email,updatedAdmin);
@@ -255,7 +260,7 @@ public class People {
     @PUT
     @Path("/activate/{email}")
     @RolesAllowed({"ADMIN"})
-    public Response activatePerson(@PathParam("email") String email){
+    public Response activatePerson(@Valid @PathParam("email") String email){
         try {
             dataCenter.get_hr().activatePerson(email);
             return Response.ok().build();

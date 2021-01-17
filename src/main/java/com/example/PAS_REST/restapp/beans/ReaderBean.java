@@ -1,5 +1,8 @@
 package com.example.PAS_REST.restapp.beans;
 
+import javax.json.bind.annotation.JsonbDateFormat;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -22,6 +25,7 @@ public class ReaderBean {
     public String phoneNumber;
     @NotNull
     @NotEmpty
+    @Email
     public String email;
     @NotNull
     @NotEmpty
@@ -34,4 +38,5 @@ public class ReaderBean {
     @NotNull
     @NotEmpty
     public String password;
+    public boolean active;
 }

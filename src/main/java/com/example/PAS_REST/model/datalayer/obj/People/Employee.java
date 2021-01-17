@@ -1,5 +1,6 @@
 package com.example.PAS_REST.model.datalayer.obj.People;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.text.DateFormat;
@@ -9,6 +10,7 @@ import java.util.Date;
 @JsonIgnoreProperties({"password"})
 public class Employee extends Person {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date dateOfEmployment;
 
     public Employee(String id, String name, String surname, Date birthDate,

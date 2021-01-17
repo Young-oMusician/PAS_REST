@@ -31,4 +31,5 @@ public class EmployeeAndAdminBean {
     @NotNull
     @NotEmpty
     public String password;
+    public boolean active;
 }
