@@ -265,4 +265,15 @@ public class People {
             return Response.status(Response.Status.CONFLICT.getStatusCode(), exceptionHandler.getMessage()).build();
         }
     }
+    @PUT
+    @Path("/deactivate/{email}")
+    @RolesAllowed({"ADMIN"})
+    public Response deactivatePerson(@PathParam("email") String email){
+        try {
+            dataCenter.get_hr().deactivatePerson(email);
+            return Response.ok().build();
+        } catch (ExceptionHandler exceptionHandler) {
+            return Response.status(Response.Status.CONFLICT.getStatusCode(), exceptionHandler.getMessage()).build();
+        }
+    }
 }
