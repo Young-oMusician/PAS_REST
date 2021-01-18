@@ -2,7 +2,6 @@ package com.example.PAS_REST.restapp;
 
 import com.example.PAS_REST.model.datalayer.obj.People.Administrator;
 import com.example.PAS_REST.model.datalayer.obj.People.Employee;
-import com.example.PAS_REST.model.datalayer.obj.People.Person;
 import com.example.PAS_REST.model.datalayer.obj.People.Reader;
 import com.example.PAS_REST.model.logiclayer.ExceptionHandler;
 import com.example.PAS_REST.restapp.beans.EmployeeAndAdminBean;
@@ -13,7 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.print.attribute.standard.Media;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -21,7 +19,6 @@ import javax.ws.rs.core.Response;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 @ApplicationScoped
 @Path("hr")
@@ -128,7 +125,7 @@ public class People {
         }
 
         try {
-            dataCenter.get_hr().addReader(readerBean.id,readerBean.name,readerBean.surname,dateOfBirth,readerBean.phoneNumber,
+            dataCenter.get_hr().addReader(readerBean.pesel,readerBean.name,readerBean.surname,dateOfBirth,readerBean.phoneNumber,
                     readerBean.email,readerBean.gender,dateOfRegistration ,readerBean.balance, readerBean.password);
         } catch (ExceptionHandler exceptionHandler) {
             return Response.status(Response.Status.NOT_ACCEPTABLE.getStatusCode(), exceptionHandler.getMessage()).build();
@@ -149,7 +146,7 @@ public class People {
         }
 
         try {
-            dataCenter.get_hr().addEmployee(employeeAndAdminBean.id, employeeAndAdminBean.name, employeeAndAdminBean.surname,dateOfBirth, employeeAndAdminBean.phoneNumber,
+            dataCenter.get_hr().addEmployee(employeeAndAdminBean.pesel, employeeAndAdminBean.name, employeeAndAdminBean.surname,dateOfBirth, employeeAndAdminBean.phoneNumber,
                     employeeAndAdminBean.email, employeeAndAdminBean.gender,dateOfEmployment, employeeAndAdminBean.password);
         } catch (ExceptionHandler exceptionHandler) {
             return Response.status(Response.Status.NOT_ACCEPTABLE.getStatusCode(), exceptionHandler.getMessage()).build();
@@ -170,7 +167,7 @@ public class People {
         }
 
         try {
-            dataCenter.get_hr().addAdministrator(employeeAndAdminBean.id, employeeAndAdminBean.name, employeeAndAdminBean.surname,dateOfBirth, employeeAndAdminBean.phoneNumber,
+            dataCenter.get_hr().addAdministrator(employeeAndAdminBean.pesel, employeeAndAdminBean.name, employeeAndAdminBean.surname,dateOfBirth, employeeAndAdminBean.phoneNumber,
                     employeeAndAdminBean.email, employeeAndAdminBean.gender,dateOfEmployment, employeeAndAdminBean.password);
         } catch (ExceptionHandler exceptionHandler) {
             return Response.status(Response.Status.NOT_ACCEPTABLE.getStatusCode(), exceptionHandler.getMessage()).build();
@@ -192,7 +189,7 @@ public class People {
             return Response.status(Response.Status.NOT_ACCEPTABLE.getStatusCode(), "Not acceptable date format").build();
         }
 
-        Reader updatedReader = new Reader(readerBean.id, readerBean.name, readerBean.surname,
+        Reader updatedReader = new Reader(readerBean.pesel, readerBean.name, readerBean.surname,
                 dateOfBirth,readerBean.phoneNumber, readerBean.email,readerBean.gender,dateOfRegistration,
                 readerBean.balance, readerBean.password);
         updatedReader.setActive(readerBean.active);
@@ -218,7 +215,7 @@ public class People {
             return Response.status(Response.Status.NOT_ACCEPTABLE.getStatusCode(), "Not acceptable date format").build();
         }
 
-        Employee updatedEmployee = new Employee(employeeAndAdminBean.id, employeeAndAdminBean.name, employeeAndAdminBean.surname, dateOfBirth, employeeAndAdminBean.phoneNumber, employeeAndAdminBean.email, employeeAndAdminBean.gender,dateOfEmployment, employeeAndAdminBean.password);
+        Employee updatedEmployee = new Employee(employeeAndAdminBean.pesel, employeeAndAdminBean.name, employeeAndAdminBean.surname, dateOfBirth, employeeAndAdminBean.phoneNumber, employeeAndAdminBean.email, employeeAndAdminBean.gender,dateOfEmployment, employeeAndAdminBean.password);
         updatedEmployee.setActive(employeeAndAdminBean.active);
 
         try {
@@ -243,7 +240,7 @@ public class People {
             return Response.status(Response.Status.NOT_ACCEPTABLE.getStatusCode(), "Not acceptable date format").build();
         }
 
-        Administrator updatedAdmin = new Administrator(employeeAndAdminBean.id, employeeAndAdminBean.name, employeeAndAdminBean.surname, dateOfBirth, employeeAndAdminBean.phoneNumber, employeeAndAdminBean.email, employeeAndAdminBean.gender,dateOfEmployment, employeeAndAdminBean.password);
+        Administrator updatedAdmin = new Administrator(employeeAndAdminBean.pesel, employeeAndAdminBean.name, employeeAndAdminBean.surname, dateOfBirth, employeeAndAdminBean.phoneNumber, employeeAndAdminBean.email, employeeAndAdminBean.gender,dateOfEmployment, employeeAndAdminBean.password);
         updatedAdmin.setActive(employeeAndAdminBean.active);
 
         try {

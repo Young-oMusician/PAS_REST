@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public abstract class Resource {
     private UUID id;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date purchaseDate;
     private double pricePerDay;
 

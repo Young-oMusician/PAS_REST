@@ -1,6 +1,7 @@
 package com.example.PAS_REST.restapp.beans;
 
 import com.example.PAS_REST.model.datalayer.obj.Events.Rent;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 import java.util.List;

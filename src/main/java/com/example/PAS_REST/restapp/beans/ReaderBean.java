@@ -1,16 +1,16 @@
 package com.example.PAS_REST.restapp.beans;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.json.bind.annotation.JsonbDateFormat;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.util.Date;
 
 public class ReaderBean {
     @NotNull
     @NotEmpty
-    public String id;
+    @Size(min=11, max=11)
+    public String pesel;
     @NotNull
     @NotEmpty
     public String name;
@@ -19,9 +19,11 @@ public class ReaderBean {
     public String surname;
     @NotNull
     @NotEmpty
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     public String birthDate;
     @NotNull
     @NotEmpty
+    @Pattern(regexp = "^[0-9]{9}$")
     public String phoneNumber;
     @NotNull
     @NotEmpty
@@ -32,6 +34,7 @@ public class ReaderBean {
     public String gender;
     @NotNull
     @NotEmpty
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     public String dateOfRegistration;
     @NotNull
     public Double balance;

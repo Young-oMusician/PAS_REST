@@ -1,12 +1,14 @@
 package com.example.PAS_REST.restapp.beans;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import javax.validation.constraints.*;
 
 public class EmployeeAndAdminBean {
     @NotNull
     @NotEmpty
-    public String id;
+    @Size(min=11, max=11)
+    public String pesel;
     @NotNull
     @NotEmpty
     public String name;
@@ -15,18 +17,22 @@ public class EmployeeAndAdminBean {
     public String surname;
     @NotNull
     @NotEmpty
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     public String birthDate;
     @NotNull
     @NotEmpty
+    @Pattern(regexp = "^[0-9]{9}")
     public String phoneNumber;
     @NotNull
     @NotEmpty
+    @Email
     public String email;
     @NotNull
     @NotEmpty
     public String gender;
     @NotNull
     @NotEmpty
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     public String dateOfEmployment;
     @NotNull
     @NotEmpty

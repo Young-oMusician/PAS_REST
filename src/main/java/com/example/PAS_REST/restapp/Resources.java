@@ -2,7 +2,6 @@ package com.example.PAS_REST.restapp;
 
 import com.example.PAS_REST.model.datalayer.obj.Resources.AudioBook;
 import com.example.PAS_REST.model.datalayer.obj.Resources.Book;
-import com.example.PAS_REST.model.datalayer.obj.Resources.Resource;
 import com.example.PAS_REST.model.logiclayer.ExceptionHandler;
 import com.example.PAS_REST.restapp.beans.AudioBookBean;
 import com.example.PAS_REST.restapp.beans.BookBean;
@@ -10,7 +9,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.annotation.security.RolesAllowed;
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -18,9 +16,7 @@ import javax.ws.rs.core.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 
 @Path("/resources")
@@ -132,7 +128,7 @@ public class Resources {
     public Response addBook(@Valid BookBean book){
         Date purchaseDate = null;
         try {
-            purchaseDate = new SimpleDateFormat("dd/MM/yyyy").parse(book.purchase);
+            purchaseDate = new SimpleDateFormat("dd/MM/yyyy").parse(book.purchaseDate);
         } catch (ParseException e) {
             return Response.status(Response.Status.NOT_ACCEPTABLE.getStatusCode(), "Not acceptable date format").build();
         }
@@ -151,7 +147,7 @@ public class Resources {
     public Response addAudioBook(@Valid AudioBookBean audioBookBean){
         Date purchaseDate = null;
         try {
-            purchaseDate = new SimpleDateFormat("dd/MM/yyyy").parse(audioBookBean.purchase);
+            purchaseDate = new SimpleDateFormat("dd/MM/yyyy").parse(audioBookBean.purchaseDate);
         } catch (ParseException e) {
             return Response.status(Response.Status.NOT_ACCEPTABLE.getStatusCode(), "Not acceptable date format").build();
         }
@@ -172,7 +168,7 @@ public class Resources {
     public Response updateBook(@Valid @PathParam("id") String id, BookBean book){
         Date purchaseDate = null;
         try {
-            purchaseDate = new SimpleDateFormat("dd/MM/yyyy").parse(book.purchase);
+            purchaseDate = new SimpleDateFormat("dd/MM/yyyy").parse(book.purchaseDate);
         } catch (ParseException e) {
             return Response.status(Response.Status.NOT_ACCEPTABLE.getStatusCode(), "Not acceptable date format").build();
         }
@@ -193,7 +189,7 @@ public class Resources {
     public Response updateAudioBook(@Valid @PathParam("id") String id, AudioBookBean audioBookBean){
         Date purchaseDate = null;
         try {
-            purchaseDate = new SimpleDateFormat("dd/MM/yyyy").parse(audioBookBean.purchase);
+            purchaseDate = new SimpleDateFormat("dd/MM/yyyy").parse(audioBookBean.purchaseDate);
         } catch (ParseException e) {
             return Response.status(Response.Status.NOT_ACCEPTABLE.getStatusCode(), "Not acceptable date format").build();
         }
@@ -206,5 +202,4 @@ public class Resources {
         }
         return Response.ok().build();
     }
-
 }
