@@ -31,7 +31,7 @@ public class People {
 
     @GET
     @Path("/readers")
-    @RolesAllowed({"ADMIN", "EMPLOYEE"})
+    //@RolesAllowed({"ADMIN", "EMPLOYEE"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllReaders(){
         try {
@@ -44,7 +44,7 @@ public class People {
 
     @GET
     @Path("/employees")
-    @RolesAllowed({"ADMIN", "EMPLOYEE"})
+    //@RolesAllowed({"ADMIN", "EMPLOYEE"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllEmployees(){
         try {
@@ -57,7 +57,7 @@ public class People {
 
     @GET
     @Path("/admins")
-    @RolesAllowed({"ADMIN", "EMPLOYEE"})
+    //@RolesAllowed({"ADMIN", "EMPLOYEE"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllAdministrators(){
         try {
@@ -72,7 +72,7 @@ public class People {
 
     @GET
     @Path("/readers/{email}")
-    @RolesAllowed({"ADMIN", "EMPLOYEE"})
+    //@RolesAllowed({"ADMIN", "EMPLOYEE"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response getReader(@Valid @PathParam("email") String email){
         try {
@@ -85,7 +85,7 @@ public class People {
 
     @GET
     @Path("/employees/{email}")
-    @RolesAllowed({"ADMIN", "EMPLOYEE"})
+    //@RolesAllowed({"ADMIN", "EMPLOYEE"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response getEmployee(@Valid @PathParam("email") String email){
         try {
@@ -98,7 +98,7 @@ public class People {
 
     @GET
     @Path("/admins/{email}")
-    @RolesAllowed({"ADMIN", "EMPLOYEE"})
+    //@RolesAllowed({"ADMIN", "EMPLOYEE"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAdministrator(@Valid @PathParam("email") String email){
         try {
@@ -113,7 +113,7 @@ public class People {
 
     @POST
     @Path("/readers/add")
-    @RolesAllowed({"ADMIN"})
+    //@RolesAllowed({"ADMIN"})
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addReader(@Valid ReaderBean readerBean){
         Date dateOfBirth = null;
@@ -134,7 +134,7 @@ public class People {
     }
     @POST
     @Path("/employees/add")
-    @RolesAllowed({"ADMIN"})
+    //@RolesAllowed({"ADMIN"})
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addEmployee(@Valid EmployeeAndAdminBean employeeAndAdminBean){
         Date dateOfBirth = null;
@@ -155,7 +155,7 @@ public class People {
     }
     @POST
     @Path("/admins/add")
-    @RolesAllowed({"ADMIN"})
+    //@RolesAllowed({"ADMIN"})
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addAdmin(@Valid EmployeeAndAdminBean employeeAndAdminBean){
         Date dateOfBirth = null;
@@ -178,7 +178,7 @@ public class People {
     //-----------------Update----------------
     @PUT
     @Path("/readers/update/{email}")
-    @RolesAllowed({"ADMIN"})
+    //@RolesAllowed({"ADMIN"})
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateReader(@Valid @PathParam("email") String email, ReaderBean readerBean){
         Date dateOfBirth = null;
@@ -204,7 +204,7 @@ public class People {
     }
     @PUT
     @Path("/employees/update/{email}")
-    @RolesAllowed({"ADMIN"})
+    //@RolesAllowed({"ADMIN"})
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateEmployee(@Valid @PathParam("email") String email, EmployeeAndAdminBean employeeAndAdminBean){
         Date dateOfBirth = null;
@@ -229,7 +229,7 @@ public class People {
 
     @PUT
     @Path("/admins/update/{email}")
-    @RolesAllowed({"ADMIN"})
+    //@RolesAllowed({"ADMIN"})
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateAdmin(@Valid @PathParam("email") String email, EmployeeAndAdminBean employeeAndAdminBean){
         Date dateOfBirth = null;
@@ -256,7 +256,7 @@ public class People {
 
     @PUT
     @Path("/activate/{email}")
-    @RolesAllowed({"ADMIN"})
+    //@RolesAllowed({"ADMIN"})
     public Response activatePerson(@Valid @PathParam("email") String email){
         try {
             dataCenter.get_hr().activatePerson(email);
@@ -267,7 +267,7 @@ public class People {
     }
     @PUT
     @Path("/deactivate/{email}")
-    @RolesAllowed({"ADMIN"})
+    //@RolesAllowed({"ADMIN"})
     public Response deactivatePerson(@PathParam("email") String email){
         try {
             dataCenter.get_hr().deactivatePerson(email);
